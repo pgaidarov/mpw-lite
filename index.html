@@ -427,6 +427,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
       <div class="field"><div class="label">Product Name</div><input type="text" id="np-name" placeholder="e.g. Outline of Her"></div>
       <div class="field"><div class="label">Price (EUR)</div><input type="text" id="np-price" placeholder="e.g. 380"></div>
     </div>
+      <div class="field">
+        <div class="label">Key feeling / angle <span style="color:var(--muted);font-size:9px;margin-left:4px">optional</span></div>
+        <input type="text" id="np-angle" placeholder="e.g. gift for book lovers, Valentine's Day, minimalist home decor, new restock urgency">
+      </div>
     <div class="field">
       <div class="label">Category</div>
       <select id="np-cat">
@@ -2250,7 +2254,16 @@ async function callGPTImage(system, userText, imageUrl, maxTokens) {
   const key = getKey();
   if (!key) throw new Error('Enter your OpenAI API key in Settings.');
   const userContent = [{ type: 'text', text: userText }];
-  if (imageUrl) userContent.push({ type: 'image_url', image_url: { url: imageUrl, detail: 'low' } });
+  if (imageUrl) {
+    // Handle both base64 DataURLs and regular URLs
+    if (imageUrl.startsWith('data:image/')) {
+      const [meta, b64] = imageUrl.split(',');
+      const mediaType = meta.split(';')[0].split(':')[1];
+      userContent.push({ type: 'image_url', image_url: { url: imageUrl, detail: 'low' } });
+    } else {
+      userContent.push({ type: 'image_url', image_url: { url: imageUrl, detail: 'low' } });
+    }
+  }
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
@@ -2383,18 +2396,22 @@ async function npGenerate() {
   hideErr('np-err');
   const name = document.getElementById('np-name').value.trim();
   if (!name) { showErr('np-err', 'Enter a product name.'); return; }
-  const fbUrl  = document.getElementById('np-img-fb').value.trim();
-  const igUrl  = document.getElementById('np-img-ig').value.trim();
-  const pinUrl = document.getElementById('np-img-pin').value.trim();
-  const webUrl = document.getElementById('np-img-web').value.trim();
+
+  // Accept URL or uploaded file for each slot
+  const fbUrl  = document.getElementById('np-img-fb').value.trim()  || imgData['np-img-fb']  || '';
+  const igUrl  = document.getElementById('np-img-ig').value.trim()  || imgData['np-img-ig']  || '';
+  const pinUrl = document.getElementById('np-img-pin').value.trim() || imgData['np-img-pin'] || '';
+  const webUrl = document.getElementById('np-img-web').value.trim() || imgData['np-img-web'] || '';
   const imageUrl = webUrl || fbUrl || igUrl || pinUrl;
-  if (!imageUrl) { showErr('np-err', 'Paste at least one image URL.'); return; }
+  if (!imageUrl) { showErr('np-err', 'Paste a URL or upload an image for at least one platform.'); return; }
+
   const price = document.getElementById('np-price').value;
   const cat   = document.getElementById('np-cat').value;
+  const angle = document.getElementById('np-angle').value.trim();
   setLoading('np-genBtn', true);
   try {
     const r = await callGPTImage(SYS_SOCIAL,
-      `Product: ${name}\nCategory: ${cat}\nPrice: ${price} EUR\n\nGenerate platform posts based on the product image. Return ONLY valid JSON as specified.`,
+      `Product: ${name}\nCategory: ${cat}\nPrice: ${price} EUR${angle ? "\nAngle / direction: " + angle : ""}\n\nGenerate platform posts based on the product image. Return ONLY valid JSON as specified.`,
       imageUrl, 1400);
     document.getElementById('np-fb-out').value  = r.facebook_post || '';
     document.getElementById('np-ig-out').value  = r.instagram_caption || '';
