@@ -1,11 +1,4 @@
-<div class="field">
-        <div class="label">Product image <span style="color:var(--muted);font-size:9px;margin-left:4px">optional</span></div>
-        <div class="img-upload-wrap"><div class="img-upload-row">
-          <input type="url" id="vb-img" placeholder="https://... or upload &#8594;" oninput="imgUrlInput('vb-img')">
-          <label class="img-upload-btn" for="vb-img-file">&#128194; Upload</label>
-          <input type="file" id="vb-img-file" accept="image/*" style="display:none" onchange="imgFileSelect('vb-img')">
-        </div><span class="img-fname" id="vb-img-fname"></span></div>
-      </div><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -256,6 +249,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
 .img-upload-btn:hover{border-color:var(--gold);color:var(--gold2);}
 .img-fname{font-family:'DM Mono',monospace;font-size:9px;color:var(--green2);display:none;}
 .img-fname.show{display:block;}
+
+/* ── HOOK LIBRARY ITEMS ── */
+.hook-item{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:flex-start;gap:10px;}
+.hook-item-text{flex:1;font-size:11px;color:var(--text);line-height:1.6;}
+.hook-item-actions{display:flex;gap:6px;flex-shrink:0;}
+.hook-saved{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:flex-start;gap:10px;}
+.hook-saved-text{flex:1;font-size:11px;color:var(--muted2);line-height:1.6;}
+
 </style>
 </head>
 <body>
@@ -269,7 +270,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
       <div class="brand-gem">🧵</div>
       <div>
         <div class="brand-name">Merry Piper's Workshop</div>
-        <div class="brand-sub">Tools Light · v1.0</div>
+        <div class="brand-sub">Tools Light · v1.1</div>
       </div>
     </div>
     <button class="settings-btn" onclick="openSettings()">⚙ Settings &amp; Keys</button>
@@ -496,6 +497,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
       <div class="img-thumb-wrap"><img class="img-thumb" id="np-prev-web"><div class="img-thumb-label">Website</div></div>
     </div>
 
+    <div class="field" style="margin-bottom:12px"><div class="label">Language</div><select id="np-lang"><option value="bg">Bulgarian</option><option value="en">English</option></select></div>
     <button class="btn btn-primary btn-full" id="np-genBtn" onclick="npGenerate()">
       <div class="spinner"></div>
       <span class="btn-text">✦ Generate from Images</span>
@@ -597,6 +599,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
       <div class="field"><div class="label">URL Slug</div><input type="text" id="vb-slug" placeholder="wire-cat-bookmark"></div>
     </div>
     <div class="field"><div class="label">Description / Angle</div><textarea id="vb-desc" rows="2" placeholder="What makes this piece special? Any story, detail, occasion..."></textarea></div>
+      <div class="field">
+        <div class="label">Product image <span style="color:var(--muted);font-size:9px;margin-left:4px">optional</span></div>
+        <div class="img-upload-wrap"><div class="img-upload-row">
+          <input type="url" id="vb-img" placeholder="https://... or upload &#8594;" oninput="imgUrlInput('vb-img')">
+          <label class="img-upload-btn" for="vb-img-file">&#128194; Upload</label>
+          <input type="file" id="vb-img-file" accept="image/*" style="display:none" onchange="imgFileSelect('vb-img')">
+        </div><span class="img-fname" id="vb-img-fname"></span></div>
+      </div>
     <button class="btn btn-primary btn-full" id="vb-genBtn" onclick="vbGenerate()">
       <div class="spinner"></div>
       <span class="btn-text">🎬 Generate Brief</span>
@@ -703,6 +713,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
         </div>
       </div>
       <div class="field"><div class="label">Key feeling / angle</div><input type="text" id="pg-s-angle" placeholder="e.g. gift idea, process reveal, behind the scenes..."></div>
+      <div class="field" style="margin-bottom:12px"><div class="label">Language</div><select id="pg-s-lang"><option value="bg">Bulgarian</option><option value="en">English</option></select></div>
       <button class="btn btn-primary btn-full" id="pg-s-btn" onclick="pgSocial()">
         <div class="spinner"></div><span class="btn-text">✦ Generate Posts</span>
       </button>
@@ -777,6 +788,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
         <div class="field" style="margin-bottom:10px"><div class="label">Trending topics / seasonal context</div><textarea id="pg-b-trends" rows="2" placeholder="e.g. BookTok gift guides rising. Valentine's Day 3 weeks away."></textarea></div>
         <div class="field" style="margin-bottom:14px"><div class="label">Current follower count</div><input type="text" id="pg-b-followers" placeholder="e.g. 1,240 Instagram followers"></div>
       </div>
+      <div class="field" style="margin-bottom:12px"><div class="label">Language</div><select id="pg-b-lang"><option value="bg">Bulgarian</option><option value="en">English</option></select></div>
       <button class="btn btn-primary btn-full" id="pg-b-btn" onclick="pgBulk()"><div class="spinner"></div><span class="btn-text">&#10022; Generate</span></button>
       <div class="err-box" id="pg-b-err"></div>
       <div id="pg-b-out" style="display:none;margin-top:16px;background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;font-size:12px;line-height:2;color:var(--muted2);white-space:pre-wrap"></div>
@@ -791,6 +803,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
           <select id="pg-h-platform"><option>Instagram</option><option>TikTok</option><option>Pinterest</option></select>
         </div>
       </div>
+      <div class="field" style="margin-bottom:12px"><div class="label">Language</div><select id="pg-h-lang"><option value="bg">Bulgarian</option><option value="en">English</option></select></div>
       <button class="btn btn-primary btn-full" id="pg-h-btn" onclick="pgHashtags()"><div class="spinner"></div><span class="btn-text"># Generate Hashtag Set</span></button>
       <div class="err-box" id="pg-h-err"></div>
       <div class="hashtag-wrap" id="pg-h-out" style="display:none;margin-top:16px;background:var(--s1);border:1px solid var(--border);border-radius:10px"></div>
@@ -804,6 +817,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
         <div class="label">Repurpose for</div>
         <select id="pg-r-platform"><option>All platforms (fresh angles)</option><option>TikTok script</option><option>Pinterest SEO</option><option>Email newsletter excerpt</option></select>
       </div>
+      <div class="field" style="margin-bottom:12px"><div class="label">Language</div><select id="pg-r-lang"><option value="bg">Bulgarian</option><option value="en">English</option></select></div>
       <button class="btn btn-primary btn-full" id="pg-r-btn" onclick="pgRepurpose()"><div class="spinner"></div><span class="btn-text">♻️ Repurpose</span></button>
       <div class="err-box" id="pg-r-err"></div>
       <div id="pg-r-out" style="display:none;margin-top:16px;background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;font-size:12px;line-height:1.8;color:var(--muted2)"></div>
@@ -899,6 +913,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
       <div class="field"><div class="label">Materials</div><input type="text" id="etsy-materials" placeholder="Steel wire, hand-bent"></div>
     </div>
     <div class="field"><div class="label">Occasions / Gift Use</div><input type="text" id="etsy-occasions" placeholder="e.g. birthday, Christmas, teacher gift"></div>
+    <div class="field"><div class="label">Extra Details <span style="color:var(--muted);font-size:9px;margin-left:4px">optional — unique features, dimensions, story</span></div><input type="text" id="etsy-details" placeholder="e.g. comes in gift box, 8cm tall, made to order"></div>
     <div class="field" style="margin-bottom:12px">
         <div class="label">Product image <span style="color:var(--muted);font-size:9px;margin-left:4px">optional — helps GPT write more specific copy</span></div>
         <div class="img-upload-wrap">
@@ -1100,6 +1115,8 @@ BUFFER_TH_ID        = [Threads profile ID]</div>
       <div class="mode-tab" onclick="pbTab('monthly',this)">🗓 Monthly</div>
       <div class="mode-tab" onclick="pbTab('strategy',this)">🎯 Strategy</div>
       <div class="mode-tab" onclick="pbTab('viral',this)">🎬 Viral Formats</div>
+      <div class="mode-tab" onclick="pbTab('hooks',this)">🪝 Hooks</div>
+      <div class="mode-tab" onclick="pbTab('visual',this)">🎥 Visual System</div>
       <div class="mode-tab" onclick="pbTab('etsy-road',this)">🛒 Etsy</div>
       <div class="mode-tab" onclick="pbTab('revenue',this)">💰 Revenue</div>
     </div>
@@ -1189,7 +1206,7 @@ BUFFER_TH_ID        = [Threads profile ID]</div>
             <span style="font-size:12px;font-weight:600;color:var(--text)">1 outreach email — gift guide / wholesale / corporate</span>
             <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-left:auto">30 min</span>
           </div>
-          <div style="padding:10px 14px;font-size:11px;color:var(--muted2)">Pick a template from ✉️ Templates screen. Personalise the name and publication. Send from merry@merrypiper.com. One email per week minimum — that's 50 outreach contacts per year.</div>
+          <div style="padding:10px 14px;font-size:11px;color:var(--muted2)">Pick a template from ✉️ Templates screen. Personalise the name and publication. Send from <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87eae2f5f5fec7eae2f5f5fef7eef7e2f5a9e4e8ea">[email&#160;protected]</a>. One email per week minimum — that's 50 outreach contacts per year.</div>
         </div>
         <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;overflow:hidden">
           <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
@@ -1415,6 +1432,124 @@ BUFFER_TH_ID        = [Threads profile ID]</div>
           </div>
           <div style="font-size:11px;color:var(--gold2);margin-bottom:4px">"Превръщам коментарите ви в телено изкуство"</div>
           <div style="font-size:11px;color:var(--muted2)">Ask for suggestions → each sculpture becomes the next video. Self-feeding content engine. Community builder.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- HOOKS LIBRARY -->
+    <div class="mode-panel" id="pb-panel-hooks">
+      <div class="tip"><strong>How to use:</strong> Generate 10 hooks → save the ones that feel right → build your library over time. Before filming, pick one from the library. Rotate formats — never use the same hook twice in a row.</div>
+
+      <div style="margin-bottom:16px">
+        <div class="field"><div class="label">Context (optional)</div><input type="text" id="hooks-ctx" placeholder="e.g. wire cat sculpture, Valentine's Day, ASMR process, transformation reveal…"></div>
+        <div class="field">
+          <div class="label">Hook type</div>
+          <select id="hooks-type">
+            <option value="mix">Mix — variety of styles</option>
+            <option value="bg">Bulgarian only</option>
+            <option value="en">English only</option>
+            <option value="transformation">Transformation hooks</option>
+            <option value="question">Question / curiosity hooks</option>
+            <option value="asmr">ASMR / sensory hooks</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-full" id="hooks-gen-btn" onclick="hooksGenerate()">
+          <div class="spinner"></div>
+          <span class="btn-text">✦ Generate 10 Hooks</span>
+        </button>
+        <div class="err-box" id="hooks-err"></div>
+      </div>
+
+      <div id="hooks-results" style="display:none;margin-bottom:20px">
+        <div class="section-title">Generated — tap to save</div>
+        <div id="hooks-generated" style="display:flex;flex-direction:column;gap:6px"></div>
+      </div>
+
+      <div id="hooks-library-wrap">
+        <div class="section-title">Saved hooks <span id="hooks-count" style="font-weight:400;color:var(--muted);font-size:10px;text-transform:none;letter-spacing:0"></span></div>
+        <div id="hooks-library" style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:11px;color:var(--muted);font-style:italic;padding:8px 0">No saved hooks yet. Generate some above and tap ✦ Save to add them here.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISUAL SYSTEM -->
+    <div class="mode-panel" id="pb-panel-visual">
+      <div class="tip green"><strong>Read this before every filming session.</strong> Consistent visual identity is what makes an account recognisable. Maria's aesthetic: dark + textured + hands-visible. Every video should feel like it came from the same studio.</div>
+
+      <div class="section-title">Backgrounds</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+        <div style="background:var(--s1);border:1px solid rgba(220,168,40,0.3);border-radius:8px;padding:14px">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold2);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">✓ Use these</div>
+          <div style="font-size:11px;color:var(--muted2);line-height:2">Dark wood workbench surface<br>Black velvet or dark linen fabric<br>Weathered stone / concrete texture<br>Dark kraft paper (for bookmarks)<br>Your actual workshop desk — authentic beats staged</div>
+        </div>
+        <div style="background:var(--s1);border:1px solid rgba(192,80,80,0.3);border-radius:8px;padding:14px">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red2);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">✗ Avoid</div>
+          <div style="font-size:11px;color:var(--muted2);line-height:2">White backgrounds (too clinical)<br>Busy patterned fabrics<br>Cluttered backgrounds with objects<br>Bright coloured surfaces<br>Anything that competes with the wire</div>
+        </div>
+      </div>
+
+      <div class="section-title">Lighting</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:18px;flex-shrink:0">☀️</span>
+          <div><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px">Natural window light — best option</div><div style="font-size:11px;color:var(--muted2)">Shoot within 1 metre of a window. Overcast day = perfect diffused light. Direct sun creates harsh shadows on wire — use a white curtain or tissue paper as a diffuser.</div></div>
+        </div>
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:18px;flex-shrink:0">💡</span>
+          <div><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px">Softbox or ring light — acceptable</div><div style="font-size:11px;color:var(--muted2)">Position at 45° to the side, not front-facing. Front light flattens wire depth. Side light creates the shadow detail that shows the sculpture's texture and dimension.</div></div>
+        </div>
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:18px;flex-shrink:0">🕯️</span>
+          <div><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px">Warm lamp from the side — collectible tier</div><div style="font-size:11px;color:var(--muted2)">For Collectible Art pieces (€300+), warm directional light from one side creates dramatic shadows. Feels gallery-grade. Use for reveal shots, not process shots.</div></div>
+        </div>
+      </div>
+
+      <div class="section-title">Camera angles</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-size:20px;margin-bottom:6px">📐</div>
+          <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:4px">Top-down (flat lay)</div>
+          <div style="font-size:10px;color:var(--muted2);line-height:1.6">Best for bookmarks. Clean, editorial. Shows the full form without distortion.</div>
+        </div>
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-size:20px;margin-bottom:6px">🤳</div>
+          <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:4px">45° angle</div>
+          <div style="font-size:10px;color:var(--muted2);line-height:1.6">Best for sculptures. Shows depth and 3D form. Most used angle for process shots.</div>
+        </div>
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-size:20px;margin-bottom:6px">🔍</div>
+          <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:4px">Macro close-up</div>
+          <div style="font-size:10px;color:var(--muted2);line-height:1.6">For wire texture and hand detail. ASMR videos. Use portrait mode or phone macro lens clip.</div>
+        </div>
+      </div>
+
+      <div class="section-title">Props</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:6px">✓ Props that work</div>
+          <div style="font-size:11px;color:var(--muted2);line-height:1.9">📚 Open books (for bookmarks in context)<br>🌿 Single dried botanicals — eucalyptus, olive<br>☕ Ceramic cup or small bowl (dark)<br>✂️ Wire-working tools (shows craft authenticity)<br>🖤 Dark leather gloves (for elegant reveals)</div>
+        </div>
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:6px">Rules</div>
+          <div style="font-size:11px;color:var(--muted2);line-height:1.9">One prop maximum per shot<br>Prop should support the wire, not compete<br>Hands always visible in process shots<br>No logos or branding visible on props<br>Wire is always the hero</div>
+        </div>
+      </div>
+
+      <div class="section-title">Audio</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;gap:12px">
+          <span style="font-family:'DM Mono',monospace;font-size:9px;background:rgba(56,168,96,0.15);color:var(--green2);padding:2px 8px;border-radius:3px;flex-shrink:0;align-self:flex-start;margin-top:1px">TikTok</span>
+          <div style="font-size:11px;color:var(--muted2)">TikTok's built-in trending sounds only. Anything else risks silent muting. Check "TikTok Viral" playlist weekly for what's trending in the craft/art niche.</div>
+        </div>
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;gap:12px">
+          <span style="font-family:'DM Mono',monospace;font-size:9px;background:rgba(74,144,200,0.15);color:var(--blue2);padding:2px 8px;border-radius:3px;flex-shrink:0;align-self:flex-start;margin-top:1px">Reels</span>
+          <div style="font-size:11px;color:var(--muted2)">Instagram's licensed music library only. Never use CapCut tracks on Instagram — licensed only for TikTok and will get muted silently on Meta platforms.</div>
+        </div>
+        <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;gap:12px">
+          <span style="font-family:'DM Mono',monospace;font-size:9px;background:rgba(128,80,200,0.15);color:#a070e0;padding:2px 8px;border-radius:3px;flex-shrink:0;align-self:flex-start;margin-top:1px">ASMR</span>
+          <div style="font-size:11px;color:var(--muted2)">For ASMR-style videos: no music, just the wire sound. Record with phone mic close to the work. The click and scrape of steel wire bending is genuinely satisfying — don't cover it up.</div>
         </div>
       </div>
     </div>
@@ -1843,7 +1978,7 @@ BUFFER_TH_ID        = [Threads profile ID]</div>
 
     <!-- OUTREACH -->
     <div class="mode-panel" id="tmpl-panel-outreach">
-      <div class="tip"><strong>Personalise before sending:</strong> Replace [Name], [Publication], [Магазин], [Company] with the actual contact. Send from merry@merrypiper.com. One outreach per week = 50 contacts per year.</div>
+      <div class="tip"><strong>Personalise before sending:</strong> Replace [Name], [Publication], [Магазин], [Company] with the actual contact. Send from <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bed3dbccccc7fed3dbccccc7ced7cedbcc90ddd1d3">[email&#160;protected]</a>. One outreach per week = 50 contacts per year.</div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden">
           <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
@@ -1863,7 +1998,7 @@ A few things that might be relevant:
 
 Happy to provide high-res images, samples, or any information you need.
 
-Maria Gaidarova · merrypiper.com · merry@merrypiper.com</div>
+Maria Gaidarova · merrypiper.com · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d0bdb5a2a2a990bdb5a2a2a9a0b9a0b5a2feb3bfbd">[email&#160;protected]</a></div>
         </div>
         <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden">
           <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
@@ -1882,7 +2017,7 @@ Maria Gaidarova · merrypiper.com · merry@merrypiper.com</div>
 
 Радвам се да предоставя снимки или мостри.
 
-Мария · merrypiper.com · merry@merrypiper.com</div>
+Мария · merrypiper.com · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4d20283f3f340d20283f3f343d243d283f632e2220">[email&#160;protected]</a></div>
         </div>
         <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden">
           <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
@@ -1903,7 +2038,7 @@ Maria Gaidarova · merrypiper.com · merry@merrypiper.com</div>
 
 Мога да донеса мостри лично. Бихте ли имали интерес?
 
-Мария · merrypiper.com · merry@merrypiper.com</div>
+Мария · merrypiper.com · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="412c24333338012c2433333831283124336f222e2c">[email&#160;protected]</a></div>
         </div>
         <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden">
           <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
@@ -1929,29 +2064,12 @@ If your company is looking for memorable, unique corporate gifts that people act
 
 For 20–50 pieces: €18–22/piece · Custom designs available · 4–8 week timeline
 
-More: merrypiper.com · merry@merrypiper.com</div>
+More: merrypiper.com · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d5b8b0a7a7ac95b8b0a7a7aca5bca5b0a7fbb6bab8">[email&#160;protected]</a></div>
         </div>
         <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden">
           <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
             <div><div style="font-size:11px;font-weight:600;color:var(--text)">💼 Corporate Gift — Cold Email</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px">Subject: Handmade corporate gifts — Merry Piper's Workshop</div></div>
-            <button class="btn-copy" onclick="copyTmpl('tmpl-corp-email',this)">Copy</button>
-          </div>
-          <div id="tmpl-corp-email" style="padding:12px 14px;font-size:11px;color:var(--muted2);line-height:1.9;white-space:pre-wrap">Hi [Name],
-
-In December 2022, I produced 8,000 handmade wire bookmarks for Econt as corporate gifts — every single piece bent by hand over 3 months.
-
-For companies wanting gifts people actually keep and remember:
-• 20–50 pieces: €18–22/piece
-• Custom logo or design available
-• 4–8 week timeline
-
-My work is also permanently installed at the Ancient Serdica exhibition in Sofia Central Hali.
-
-Would this be relevant for [Company]'s next gifting occasion?
-
-Maria Gaidarova · Merry Piper's Workshop · merrypiper.com</div>
-        </div>
-        <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+            <button class="btn-copy" onclick="copyTmpl('tmpl-corp   <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden">
           <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
             <div><div style="font-size:11px;font-weight:600;color:var(--text)">🤝 Collab Pitch — Bookstagram / Book Influencer</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px">Instagram DM</div></div>
             <button class="btn-copy" onclick="copyTmpl('tmpl-collab-book',this)">Copy</button>
@@ -2086,7 +2204,7 @@ website_url — merrypiper.com</div>
     <div class="tip" style="margin-bottom:16px"><strong>Not set up yet?</strong> Scenario 5 takes 30 minutes to build and runs automatically after that.</div>
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
       <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px"><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px">Step 1 &#183; Credentials needed</div><div style="font-size:11px;color:var(--muted2);line-height:1.9">&#8226; <strong style="color:var(--text)">Make.com Core</strong> (~&#8364;10.59/mo)<br>&#8226; <strong style="color:var(--text)">Anthropic API key</strong> &#8594; console.anthropic.com &#8594; API Keys<br>&#8226; <strong style="color:var(--text)">Google Analytics 4</strong> &#8594; numeric Property ID + service account JSON<br>&#8226; <strong style="color:var(--text)">Etsy API key + Shop ID</strong> &#8594; etsy.com/developers<br>&#8226; <strong style="color:var(--text)">Meta Graph API token</strong> &#8594; developers.facebook.com &#8594; pages_read_engagement<br>&#8226; <strong style="color:var(--text)">Notion token + Reports DB ID</strong> &#8594; notion.so/my-integrations</div></div>
-      <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px"><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px">Step 2 &#183; Build in Make.com (9 modules)</div><div style="font-size:11px;color:var(--muted2);line-height:2">1. Schedule &#8594; Every week &#8594; Monday 07:00 AM<br>2. HTTP GET &#8594; GA4 Reporting API &#8594; last 7 days<br>3. HTTP GET &#8594; Etsy API v3 &#8594; shop stats<br>4. HTTP GET &#8594; Meta Graph API v21 &#8594; IG + FB insights<br>5. Notion &#8594; Query Content Queue &#8594; last 7 days<br>6. Tools &#8594; Set Variable &#8594; aggregate all data<br>7. HTTP POST &#8594; Anthropic API &#8594; claude-sonnet-4-6<br>8. Notion &#8594; Create Page in Weekly Reports DB<br>9. Brevo &#8594; Send summary email to merry@merrypiper.com</div></div>
+      <div style="background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px"><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px">Step 2 &#183; Build in Make.com (9 modules)</div><div style="font-size:11px;color:var(--muted2);line-height:2">1. Schedule &#8594; Every week &#8594; Monday 07:00 AM<br>2. HTTP GET &#8594; GA4 Reporting API &#8594; last 7 days<br>3. HTTP GET &#8594; Etsy API v3 &#8594; shop stats<br>4. HTTP GET &#8594; Meta Graph API v21 &#8594; IG + FB insights<br>5. Notion &#8594; Query Content Queue &#8594; last 7 days<br>6. Tools &#8594; Set Variable &#8594; aggregate all data<br>7. HTTP POST &#8594; Anthropic API &#8594; claude-sonnet-4-6<br>&nbsp;&nbsp;&nbsp;&nbsp;<em style="color:var(--gold2)">Add to prompt: "End with three lines: DOUBLE DOWN ON: / STOP DOING: / TEST NEXT WEEK:"</em><br>8. Notion &#8594; Create Page in Weekly Reports DB<br>9. Brevo &#8594; Send summary email to merry@merrypiper.com</div></div>
       <div class="tip blue"><strong>FB token expires every 60 days.</strong> Fix: regenerate in Graph API Explorer &#8594; update Make.com Module 4. Takes 5 minutes.</div>
     </div>
   </div>
@@ -2247,7 +2365,11 @@ async function callGPT(system, user, maxTokens) {
   if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API error ' + res.status); }
   const data = await res.json();
   const raw = data.choices[0].message.content;
-  return JSON.parse(raw.replace(/```json|```/g, '').trim());
+  const cleaned = raw.replace(/```json|```/g, '').trim();
+  const j0 = cleaned.indexOf('{'); const j1 = cleaned.lastIndexOf('}');
+  if (j0 === -1 || j1 === -1) throw new Error('GPT returned: ' + cleaned.slice(0, 200));
+  try { return JSON.parse(cleaned.slice(j0, j1 + 1)); }
+  catch(e) { throw new Error('Invalid JSON from GPT: ' + cleaned.slice(0, 200)); }
 }
 
 async function callGPTImage(system, userText, imageUrl, maxTokens) {
@@ -2255,13 +2377,16 @@ async function callGPTImage(system, userText, imageUrl, maxTokens) {
   if (!key) throw new Error('Enter your OpenAI API key in Settings.');
   const userContent = [{ type: 'text', text: userText }];
   if (imageUrl) {
+    // Prepend a grounding statement so GPT knows what it's looking at before seeing the image
+    // This prevents false-positive safety refusals on dark/high-contrast wire art photos
+    userContent.unshift({ type: 'text', text: 'The following image shows a handmade wire art product — a decorative or functional object crafted from bent metal wire, created by an artisan. Please analyse it for copywriting purposes.' });
     // Handle both base64 DataURLs and regular URLs
     if (imageUrl.startsWith('data:image/')) {
       const [meta, b64] = imageUrl.split(',');
       const mediaType = meta.split(';')[0].split(':')[1];
-      userContent.push({ type: 'image_url', image_url: { url: imageUrl, detail: 'low' } });
+      userContent.push({ type: 'image_url', image_url: { url: imageUrl, detail: 'auto' } });
     } else {
-      userContent.push({ type: 'image_url', image_url: { url: imageUrl, detail: 'low' } });
+      userContent.push({ type: 'image_url', image_url: { url: imageUrl, detail: 'auto' } });
     }
   }
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -2273,7 +2398,14 @@ async function callGPTImage(system, userText, imageUrl, maxTokens) {
   if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API error ' + res.status); }
   const data = await res.json();
   const raw = data.choices[0].message.content;
-  return JSON.parse(raw.replace(/```json|```/g, '').trim());
+  const cleaned = raw.replace(/```json|```/g, '').trim();
+  const j0 = cleaned.indexOf('{'); const j1 = cleaned.lastIndexOf('}');
+  if (j0 === -1 || j1 === -1) {
+    // GPT returned plain text — likely a refusal or image access failure
+    throw new Error('GPT could not process the image. Check the image URL is publicly accessible. GPT said: ' + cleaned.slice(0, 300));
+  }
+  try { return JSON.parse(cleaned.slice(j0, j1 + 1)); }
+  catch(e) { throw new Error('GPT returned malformed JSON. Try again. Details: ' + cleaned.slice(0, 200)); }
 }
 
 // ══════════════════════════════════════════════════════
@@ -2327,7 +2459,7 @@ async function bufferPost(channels, texts, imageUrls, whenId, timeId, statusId, 
 // SYSTEM PROMPTS
 // ══════════════════════════════════════════════════════
 const BRAND = `Merry Piper's Workshop — solo handmade wire art studio, Sofia, Bulgaria, since 2015.
-Artist: Maria Gaidarova. Every piece hand-bent from a single continuous steel wire. No machines.
+Artist: Maria Gaidarova. Every piece hand-bent from a continuous piece of steel wire. No machines, no moulds.
 Credentials (use max 1 naturally): 8,000 bookmarks for Econt (Dec 2022) · Ancient Serdica exhibition permanent sculptures (May 2024) · Phantom of the Opera producer gift (Apr 2024).
 Positioning: 'One wire. Bent by hand. Never the same twice.'
 Shop: merrypiper.com/products`;
@@ -2339,9 +2471,19 @@ const PRICING = `PRICING RULES:
 - Sculptures (€24–26): MAY include at end e.g. 'От €24.'
 - Bundles: mention 2-bookmark set (€40) naturally for gift buyers`;
 
-const VOICE = `VOICE: Write emotionally about the product — what it IS, what it EVOKES. NOT first-person Maria narration.
-DO NOT write: 'Когато създавах...' or 'I made this...'
-DO write: 'Handmade sculpture captures...' or 'Всяка извивка разказва история...'
+const VOICE = `VOICE: Write emotionally about the product — what it IS, what it EVOKES. Abstract, human, poetic.
+
+STRICT RULES — no exceptions:
+- NEVER use possessive pronouns from the brand: no мой/моя/моето, no наш/наша/нашето, no "our", no "my"
+- NEVER write from Maria's perspective or reference the maker at all
+- NEVER write marketing slogans like "Нека X съпровожда Y" — too ad-copy
+- Write as if describing the object to someone standing in front of it
+- Unexpected word choices over safe ones. Concrete sensory detail over abstraction.
+- Addressing the reader directly is fine: "вашата книга", "вашия дом", "ви" — the product can belong to the reader, just not to the brand
+
+DO NOT write: 'Когато създавах...' / 'I made this...' / 'нашия книгоразделител' / 'моя книгоразделител'
+DO write: 'Пролетта разцъфтява в страниците с книгоразделител Лале.' or 'Книгоразделителят, който ще намерите между страниците ви...'
+
 Emotion first. Product second. Craft context third.`;
 
 const SYS_SOCIAL = `You are a creative social media copywriter for ${BRAND}
@@ -2351,20 +2493,20 @@ ${VOICE}
 ${PRICING}
 
 Return ONLY valid JSON:
-{"facebook_post":"BG, 2-3 sentences, emotional, warm CTA","instagram_caption":"BG, visual/emotional, hashtag placeholder at end","threads_post":"BG, short conversational, no hashtags","pinterest_description":"EN, 2 sentences SEO, what it is + who it's for","website_description":"BG product listing copy for merrypiper.com — tone by category (Collectible Art: gallery-register 3-4 sentences no price; Скулптури: warm tactile 2-3 sentences; Книгоразделители: light reader-focused 2 sentences; Персонализирано: intimate centres recipient ends with Разкажи ми за твоето; Надписи: architectural 2 sentences)","hashtags":["10 tags mix niche+community"]}`;
+{"facebook_post":"BG, 2-3 sentences, emotional, warm CTA","instagram_caption":"BG, visual/emotional, hashtag placeholder at end","threads_post":"BG, short conversational, no hashtags","pinterest_description":"EN, 2 sentences SEO, what it is + who it's for","website_description":"BG product listing copy for merrypiper.com — tone by category (Collectible Art: gallery-register 4-5 sentences no price; Скулптури: warm tactile 4-5 sentences; Книгоразделители: light reader-focused 3-4 sentences, connect the object to the act of reading and the feeling it brings; Персонализирано: intimate centres recipient 3-4 sentences ends with Разкажи ми за твоето; Надписи: architectural 3-4 sentences). Never summarise — paint a scene.","hashtags":["10 tags mix niche+community"]}`;
 
 const SYS_VIDEO = `You are a TikTok/Reels video director for ${BRAND}
 
 Hook style: product's visual drama and emotional impact. NOT Maria's feelings.
 NOT: 'Прекарах три вечери в създаването на тази...'
-YES: 'От един тел до скулптура.' / 'One wire. Watch what it becomes.'
+YES: 'От парче тел до скулптура.' / 'One wire. Watch what it becomes.'
 
 Caption style (BG + EN): emotional description of what happens in the video. Max 150 chars. Hashtag placeholder at end for BG.
 
 ${PRICING}
 
 Return ONLY valid JSON:
-{"hook":"First 3-second on-screen text max 7 words Bulgarian","hook_en":"Same hook English","video_structure":[{"seconds":"0-3","shot":"what to film","text_overlay":"on-screen text"},{"seconds":"3-15","shot":"...","text_overlay":"..."},{"seconds":"15-30","shot":"...","text_overlay":"..."},{"seconds":"30-60","shot":"...","text_overlay":"..."}],"caption_bg":"TikTok caption Bulgarian 120 chars + hashtag placeholder","caption_en":"Instagram Reels caption English 120 chars","capcut_template":"template name suggestion","best_time":"optimal posting time e.g. 19:00–21:00","youtube_title":"YouTube Shorts title EN SEO","hashtags":["12 tags"]}`;
+{"hook":"First 3-second on-screen text max 7 words Bulgarian","hook_en":"Same hook English","video_structure":[{"seconds":"0-3","shot":"what to film","text_overlay":"on-screen text BG","text_overlay_en":"on-screen text EN"},{"seconds":"3-15","shot":"...","text_overlay":"...","text_overlay_en":"..."},{"seconds":"15-30","shot":"...","text_overlay":"...","text_overlay_en":"..."},{"seconds":"30-60","shot":"...","text_overlay":"...","text_overlay_en":"..."}],"caption_bg":"TikTok caption Bulgarian 120 chars + hashtag placeholder","caption_en":"Instagram Reels caption English 120 chars","capcut_template":"template name suggestion","best_time":"optimal posting time e.g. 19:00–21:00","youtube_title":"YouTube Shorts title EN SEO","hashtags":["12 tags"]}`;
 
 const SYS_ETSY = `You are an Etsy SEO expert and copywriter for ${BRAND}
 
@@ -2378,7 +2520,7 @@ WEBSITE DESCRIPTION rules (Bulgarian, for merrypiper.com — 3-5 sentences minim
 - Bookmarks: light, joyful, reader-focused, connects object to the act of reading. End with price.
 - Personalized: intimate, centres the recipient. Ends with "Разкажи ми за твоето."
 - Надписи: architectural, precise, focus on permanence and craft.
-Never write first-person Maria narration. Emotion first, product second, craft context third.
+Never write first-person Maria narration. No possessive pronouns from the brand (мой/наш/our/my). Addressing the reader directly is fine — the product can belong to the reader, just not to the brand.
 
 Return ONLY valid JSON: {"suggested_price":"EUR","title":"SEO title max 130 chars","description":"3 paragraphs EN: emotional opening, craft details, occasion/gift use","tags":["exactly 13 tags under 20 chars"],"website_description":"Full BG product listing 3-5 sentences minimum"}`;
 
@@ -2408,10 +2550,12 @@ async function npGenerate() {
   const price = document.getElementById('np-price').value;
   const cat   = document.getElementById('np-cat').value;
   const angle = document.getElementById('np-angle').value.trim();
+  const lang  = document.getElementById('np-lang')?.value || 'bg';
+  const langNote = lang === 'en' ? '\nLanguage: Write ALL posts in English.' : '\nLanguage: Write ALL posts in Bulgarian (except Pinterest description which should be in English).';
   setLoading('np-genBtn', true);
   try {
     const r = await callGPTImage(SYS_SOCIAL,
-      `Product: ${name}\nCategory: ${cat}\nPrice: ${price} EUR${angle ? "\nAngle / direction: " + angle : ""}\n\nGenerate platform posts based on the product image. Return ONLY valid JSON as specified.`,
+      `Product: ${name}\nCategory: ${cat}\nPrice: ${price} EUR${angle ? "\nAngle / direction: " + angle : ""}${langNote}\n\nGenerate platform posts based on the product image. Return ONLY valid JSON as specified.`,
       imageUrl, 1400);
     document.getElementById('np-fb-out').value  = r.facebook_post || '';
     document.getElementById('np-ig-out').value  = r.instagram_caption || '';
@@ -2460,7 +2604,7 @@ async function vbGenerate() {
   const imgSrc=getImgSrc('vb-img');
   setLoading('vb-genBtn',true);
   try{
-    const userMsg='Product: '+name+'\nCategory: '+cat+' | Price: '+price+' EUR\nDescription: '+desc+'\nURL: https://merrypiper.com/products/'+slug+'\n\nReturn ONLY valid JSON: {hook,hook_en,video_structure:[{seconds,shot,text_overlay}],caption_bg,caption_en,capcut_template,best_time,youtube_title,hashtags}';
+    const userMsg='Product: '+name+'\nCategory: '+cat+' | Price: '+price+' EUR\nDescription: '+desc+'\nURL: https://merrypiper.com/products/'+slug+'\n\nReturn ONLY valid JSON: {hook,hook_en,video_structure:[{seconds,shot,text_overlay,text_overlay_en}],caption_bg,caption_en,capcut_template,best_time,youtube_title,hashtags}';
     const r=imgSrc?await callGPTImage(SYS_VIDEO,userMsg,imgSrc,1400):await callGPT(SYS_VIDEO,userMsg,1400);
     document.getElementById('vb-hook').textContent=r.hook||'—';
     document.getElementById('vb-hook-en').textContent=r.hook_en||'—';
@@ -2469,7 +2613,7 @@ async function vbGenerate() {
     document.getElementById('vb-capcut').textContent=r.capcut_template||'—';
     document.getElementById('vb-time').textContent=r.best_time||'—';
     document.getElementById('vb-yt').textContent=r.youtube_title||'—';
-    const shots=(r.video_structure||[]).map(s=>'['+s.seconds+'s] '+s.shot+(s.text_overlay?' — "'+s.text_overlay+'"':'')).join('\n');
+    const shots=(r.video_structure||[]).map(s=>'['+s.seconds+'s] '+s.shot+(s.text_overlay?' — "'+s.text_overlay+'"':'')+((s.text_overlay_en)?' / "'+s.text_overlay_en+'"':'')).join('\n');
     document.getElementById('vb-shots').textContent=shots||'—';
     renderHashtags('vb-tags',r.hashtags);
     document.getElementById('vb-output').style.display='block';
@@ -2519,7 +2663,9 @@ async function pgSocial() {
   const imgSrc=getImgSrc('pg-s-img');
   setLoading('pg-s-btn',true);
   try{
-    const userMsg='Product/content: '+name+'\nCategory: '+cat+'\nPrice: '+price+' EUR\nAngle: '+angle+'\nPlatform focus: '+platform+'\n\nReturn ONLY valid JSON with keys: facebook_post, instagram_caption, threads_post, pinterest_description, hashtags';
+    const pgSLang = document.getElementById('pg-s-lang')?.value || 'bg';
+  const pgSLangNote = pgSLang === 'en' ? '\nLanguage: Write ALL posts in English.' : '\nLanguage: Write ALL posts in Bulgarian (except Pinterest description which should be in English).';
+  const userMsg='Product/content: '+name+'\nCategory: '+cat+'\nPrice: '+price+' EUR\nAngle: '+angle+'\nPlatform focus: '+platform+pgSLangNote+'\n\nReturn ONLY valid JSON with keys: facebook_post, instagram_caption, threads_post, pinterest_description, hashtags';
     const r=imgSrc?await callGPTImage(SYS_SOCIAL,userMsg,imgSrc,1000):await callGPT(SYS_SOCIAL,userMsg,1000);
     document.getElementById('pg-fb').value=r.facebook_post||'';
     document.getElementById('pg-ig').value=r.instagram_caption||'';
@@ -2560,18 +2706,20 @@ async function pgBulk() {
   const btn=document.getElementById('pg-b-btn');
   btn.disabled=true; btn.classList.add('loading');
   const hasAnalysis=wins||losses||trends;
+  const pgBLang = document.getElementById('pg-b-lang')?.value || 'bg';
+  const pgBLangNote = pgBLang === 'en' ? ' Write everything in English.' : ' Write Bulgarian captions in Bulgarian, English captions in English.';
   let sys,usr;
   if(genMode==='ideas'){
     sys="You are a content strategist for Merry Piper's Workshop — a Bulgarian handmade wire art brand. Generate specific, actionable content ideas grounded in performance data. Each idea must state WHAT to post, WHY it works given the data, WHICH platform. Return ONLY valid JSON: {ideas:[]}";
     usr='Generate 10 content ideas for next week.\n'+(product?'Product: '+product+'\n':'')+(wins?'Performed well: '+wins+'\n':'')+(losses?'Underperformed: '+losses+'\n':'')+(trends?'Trending: '+trends+'\n':'')+(followers?'Followers: '+followers+'\n':'')+(hasAnalysis?'':'No analysis data — generate high-potential ideas for handmade wire art.\n')+'\nReturn JSON: {"ideas":["10 specific ideas"]}';
   }else if(genMode==='social'){
-    sys="You are a creative social media copywriter for Merry Piper's Workshop. Write emotionally — NOT first-person narration. Return ONLY valid JSON.";
+    sys="You are a creative social media copywriter for Merry Piper's Workshop. Write emotionally — NOT first-person narration. Return ONLY valid JSON."+pgBLangNote;
     usr='Generate social posts for: '+(product||"Merry Piper's Workshop wire art")+'\n'+(wins?'What is working: '+wins+'\n':'')+(trends?'Trending: '+trends+'\n':'')+'\nReturn JSON: {facebook,instagram,threads,pinterest}';
   }else if(genMode==='video'){
-    sys="You are a viral video strategist for Merry Piper's Workshop. Write TikTok/Reels briefs with hooks that stop the scroll. Return ONLY valid JSON.";
+    sys="You are a viral video strategist for Merry Piper's Workshop. Write TikTok/Reels briefs with hooks that stop the scroll. Return ONLY valid JSON."+pgBLangNote;
     usr='Video brief for: '+(product||'wire art process video')+'\n'+(wins?'Performing: '+wins+'\n':'')+(trends?'Trending: '+trends+'\n':'')+'\nReturn JSON: {hook,hook_en,shot_list,caption_bg,caption_en,hashtags:[]}';
   }else{
-    sys="You are a content strategist and video director for Merry Piper's Workshop. Return ONLY valid JSON.";
+    sys="You are a content strategist and video director for Merry Piper's Workshop. Return ONLY valid JSON."+pgBLangNote;
     usr='Social posts AND video brief for: '+(product||'wire art')+'\n'+(wins?'Working: '+wins+'\n':'')+(trends?'Trending: '+trends+'\n':'')+'\nReturn JSON: {facebook,instagram,threads,pinterest,hook,hook_en,shot_list,hashtags:[]}';
   }
   try{
@@ -2597,8 +2745,10 @@ async function pgHashtags() {
   if (!niche) { showErr('pg-h-err', 'Enter a niche or topic.'); return; }
   setLoading('pg-h-btn', true);
   try {
+    const pgHLang = document.getElementById('pg-h-lang')?.value || 'bg';
+    const pgHLangNote = pgHLang === 'en' ? ' English hashtags only.' : ' Include Bulgarian hashtags where relevant.';
     const r = await callGPT(`You are a hashtag strategist. Return ONLY valid JSON: {"hashtags":["30 tags"]}`,
-      `Generate 30 ${platform} hashtags for: ${niche}. Mix: 5 mega (1M+), 10 large (100k-1M), 10 mid (10k-100k), 5 niche (<10k). Include Bulgarian equivalents where relevant.`, 400);
+      `Generate 30 ${platform} hashtags for: ${niche}. Mix: 5 mega (1M+), 10 large (100k-1M), 10 mid (10k-100k), 5 niche (<10k).${pgHLangNote}`, 400);
     renderHashtags('pg-h-out', r.hashtags);
     document.getElementById('pg-h-out').style.display = 'flex';
     document.getElementById('pg-h-copy').style.display = 'inline-flex';
@@ -2619,7 +2769,7 @@ async function pgRepurpose() {
       body: JSON.stringify({ model: 'gpt-4o', max_tokens: 600, temperature: 0.85,
         messages: [
           { role: 'system', content: `You are a content repurposing expert for ${BRAND} ${VOICE}` },
-          { role: 'user', content: `Repurpose this content for ${platform}:\n\n${original}\n\nReturn the repurposed version only, no explanations.` }
+          { role: 'user', content: `Repurpose this content for ${platform}. Language: ${(document.getElementById('pg-r-lang')?.value||'bg')==='en'?'Write in English.':'Write in Bulgarian.'}\n\n${original}\n\nReturn the repurposed version only, no explanations.` }
         ]})
     });
     const data = await res.json();
@@ -2695,7 +2845,7 @@ async function etsyGenerate() {
   const audience=document.getElementById('etsy-audience').value.trim();
   const materials=document.getElementById('etsy-materials').value.trim();
   const occasions=document.getElementById('etsy-occasions').value.trim();
-  const details=document.getElementById('etsy-details').value.trim();
+  const details=document.getElementById('etsy-details')?.value.trim()||'';
   setLoading('etsy-btn',true);
   try{
     const sys=isReopen?SYS_ETSY+'\n\nREOPENING MODE: maximum keyword density. First sentence must contain top 3 keywords. Use "Back in stock" language.':SYS_ETSY;
@@ -2713,6 +2863,119 @@ async function etsyGenerate() {
   }catch(e){showErr('etsy-err',e.message);}
   finally{setLoading('etsy-btn',false);}
 }
+
+
+// ══════════════════════════════════════════════════════
+// HOOKS LIBRARY
+// ══════════════════════════════════════════════════════
+const HOOKS_STORE_KEY = 'mpw-hooks-library';
+
+function hooksLoad() {
+  try { return JSON.parse(localStorage.getItem(HOOKS_STORE_KEY) || '[]'); } catch(e) { return []; }
+}
+function hooksSave(arr) {
+  localStorage.setItem(HOOKS_STORE_KEY, JSON.stringify(arr));
+}
+function hooksRenderLibrary() {
+  var arr = hooksLoad();
+  var wrap = document.getElementById('hooks-library');
+  var count = document.getElementById('hooks-count');
+  if (!wrap) return;
+  if (count) count.textContent = arr.length ? '(' + arr.length + ')' : '';
+  if (!arr.length) {
+    wrap.innerHTML = '<div style="font-size:11px;color:var(--muted);font-style:italic;padding:8px 0">No saved hooks yet. Generate some above and tap \u2736 Save to add them here.</div>';
+    return;
+  }
+  wrap.innerHTML = '';
+  arr.forEach(function(hook, i) {
+    var item = document.createElement('div');
+    item.className = 'hook-saved';
+    var text = document.createElement('div');
+    text.className = 'hook-saved-text';
+    text.textContent = hook;
+    var actions = document.createElement('div');
+    actions.className = 'hook-item-actions';
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 'btn-copy';
+    copyBtn.textContent = 'Copy';
+    copyBtn.onclick = function() { hooksItemCopy(copyBtn, hook); };
+    var delBtn = document.createElement('button');
+    delBtn.className = 'btn-copy';
+    delBtn.style.cssText = 'color:var(--red2);border-color:rgba(192,80,80,0.3)';
+    delBtn.textContent = 'Delete';
+    delBtn.onclick = function() { hooksDelete(i); };
+    actions.appendChild(copyBtn);
+    actions.appendChild(delBtn);
+    item.appendChild(text);
+    item.appendChild(actions);
+    wrap.appendChild(item);
+  });
+}
+function hooksItemCopy(btn, text) {
+  copyText(text);
+  btn.textContent = 'Copied!'; btn.classList.add('ok');
+  setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('ok'); }, 1800);
+}
+function hooksDelete(i) {
+  var arr = hooksLoad();
+  arr.splice(i, 1);
+  hooksSave(arr);
+  hooksRenderLibrary();
+}
+function hooksSaveItem(text, btn) {
+  var arr = hooksLoad();
+  if (arr.includes(text)) { btn.textContent = 'Saved'; return; }
+  arr.unshift(text);
+  hooksSave(arr);
+  hooksRenderLibrary();
+  btn.textContent = '\u2713 Saved'; btn.classList.add('ok');
+  setTimeout(function() { btn.textContent = '\u2736 Save'; btn.classList.remove('ok'); }, 1800);
+}
+
+var SYS_HOOKS = 'You are a short-form video hook writer for Merry Piper\'s Workshop — a solo wire art studio by Maria Gaidarova in Sofia, Bulgaria.\n\nRules:\n- Hooks are the first 3 seconds of a TikTok/Reel — on-screen text or spoken word\n- Max 7 words per hook\n- Voice: the product or the process speaks — NOT Maria narrating about herself\n- NOT: "Прекарах три вечери в..." or "Аз, Мария..."\n- YES: "От парче тел до скулптура." / "One wire. Watch what it becomes."\n- Mix Bulgarian and English based on type requested\n- Each hook should use a different psychological trigger: curiosity, transformation, challenge, ASMR, urgency, emotion\n- Return ONLY valid JSON: {"hooks": ["hook1", "hook2", ... 10 hooks total]}';
+
+async function hooksGenerate() {
+  hideErr('hooks-err');
+  setLoading('hooks-gen-btn', true);
+  var ctx = document.getElementById('hooks-ctx').value.trim();
+  var type = document.getElementById('hooks-type').value;
+  try {
+    var userMsg = 'Generate 10 video hooks.\nContext: ' + (ctx || 'wire art transformation, handmade steel wire sculpture') + '\nType: ' + type + '\nReturn ONLY valid JSON: {"hooks":["...10 hooks..."]}';
+    var r = await callGPT(SYS_HOOKS, userMsg, 600);
+    var hooks = r.hooks || [];
+    var gen = document.getElementById('hooks-generated');
+    gen.innerHTML = '';
+    hooks.forEach(function(hook) {
+      var item = document.createElement('div');
+      item.className = 'hook-item';
+      var text = document.createElement('div');
+      text.className = 'hook-item-text';
+      text.textContent = hook;
+      var actions = document.createElement('div');
+      actions.className = 'hook-item-actions';
+      var copyBtn = document.createElement('button');
+      copyBtn.className = 'btn-copy';
+      copyBtn.textContent = 'Copy';
+      copyBtn.onclick = function() { hooksItemCopy(copyBtn, hook); };
+      var saveBtn = document.createElement('button');
+      saveBtn.className = 'btn-copy';
+      saveBtn.style.cssText = 'color:var(--gold2);border-color:rgba(220,168,40,0.3)';
+      saveBtn.textContent = '\u2736 Save';
+      saveBtn.onclick = function() { hooksSaveItem(hook, saveBtn); };
+      actions.appendChild(copyBtn);
+      actions.appendChild(saveBtn);
+      item.appendChild(text);
+      item.appendChild(actions);
+      gen.appendChild(item);
+    });
+    document.getElementById('hooks-results').style.display = 'block';
+  } catch(e) { showErr('hooks-err', e.message); }
+  finally { setLoading('hooks-gen-btn', false); }
+}
+
+// Init hooks library on load
+document.addEventListener('DOMContentLoaded', function() { hooksRenderLibrary(); });
+
 
 // ══════════════════════════════════════════════════════
 // PLAYBOOK TABS
@@ -2744,19 +3007,7 @@ function copyTmpl(id, btn) {
 // ══════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════
-window.addEventListener('load', () => {
-  loadCreds();
-  // Show settings tip if no OpenAI key yet
-  if (!getKey()) {
-    setTimeout(() => {
-      const tip = document.createElement('div');
-      tip.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--s1);border:1px solid var(--gold);border-radius:10px;padding:12px 20px;font-size:12px;color:var(--gold2);z-index:50;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
-      tip.textContent = '⚙ First time? Click Settings & Keys to enter your API keys.';
-      document.body.appendChild(tip);
-      setTimeout(() => tip.remove(), 5000);
-    }, 800);
-  }
-});
+// (duplicate load listener removed)
 
 
 
