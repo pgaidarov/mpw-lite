@@ -258,101 +258,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
 .hook-saved-text{flex:1;font-size:11px;color:var(--muted2);line-height:1.6;}
 
 </style>
-
-<style id="mpw-reset-saas">
-
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap');
-
-:root{
-  --bg:#0f172a;
-  --bg2:#111827;
-  --glass:rgba(255,255,255,0.08);
-  --border:rgba(255,255,255,0.14);
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --accent1:#60a5fa;
-  --accent2:#34d399;
-}
-
-/* CLEAN SaaS base */
-body{
-  font-family:'Manrope', -apple-system, sans-serif;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(96,165,250,0.25), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(52,211,153,0.20), transparent 40%),
-    linear-gradient(180deg,var(--bg),var(--bg2));
-  color:var(--text);
-}
-
-/* glass panels */
-.tool-header,
-.task-card,
-.opane,
-.modal{
-  background:var(--glass);
-  backdrop-filter:blur(18px);
-  border:1px solid var(--border);
-  border-radius:14px;
-}
-
-/* tabs */
-.mode-tabs{
-  display:flex;
-  gap:6px;
-  padding:6px;
-  background:rgba(255,255,255,0.05);
-  border-radius:12px;
-}
-
-.mode-tab{
-  flex:1;
-  padding:10px;
-  border-radius:10px;
-  font-size:13px;
-  color:var(--muted);
-}
-
-.mode-tab.active{
-  background:rgba(255,255,255,0.12);
-  color:#fff;
-}
-
-/* inputs */
-input,textarea,select{
-  background:rgba(255,255,255,0.06);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  color:var(--text);
-}
-
-/* buttons */
-.btn-primary{
-  background:linear-gradient(135deg,var(--accent1),var(--accent2));
-  color:#0f172a;
-  border-radius:12px;
-  font-weight:600;
-}
-
-.btn-secondary{
-  background:rgba(255,255,255,0.08);
-  border-radius:12px;
-}
-
-/* icon container */
-.tc-icon{
-  width:32px;
-  height:32px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.12);
-}
-
-</style>
-
 </head>
 <body>
 
@@ -456,25 +361,25 @@ input,textarea,select{
     <div class="modal-section">
       <div class="modal-section-title">📱 Buffer — post to FB, IG, Threads</div>
       <div class="field">
-        <div class="label">Access Token</div>
-        <input type="password" id="cfg-buffer-token" placeholder="buffer access token">
-        <div class="cred-note">buffer.com → Settings → API → copy your Access Token.</div>
+        <div class="label">API Key</div>
+        <input type="password" id="cfg-buffer-token" placeholder="buffer API key">
+        <div class="cred-note">publish.buffer.com → Settings → API → Create API Key. Copy the key shown.</div>
       </div>
       <div class="grid-3">
         <div class="field">
-          <div class="label">Facebook Profile ID</div>
+          <div class="label">Facebook Channel ID</div>
           <input type="text" id="cfg-buffer-fb" placeholder="xxxxxxxx">
         </div>
         <div class="field">
-          <div class="label">Instagram Profile ID</div>
+          <div class="label">Instagram Channel ID</div>
           <input type="text" id="cfg-buffer-ig" placeholder="xxxxxxxx">
         </div>
         <div class="field">
-          <div class="label">Threads Profile ID</div>
+          <div class="label">Threads Channel ID</div>
           <input type="text" id="cfg-buffer-th" placeholder="xxxxxxxx">
         </div>
       </div>
-      <div class="cred-note">Profile IDs: Buffer → Channels → click each channel → copy the ID shown in the URL or channel settings.</div>
+      <div class="cred-note">Channel IDs: use the Buffer API Explorer at developers.buffer.com/explorer.html — run the Get Channels query to find each channel's ID.</div>
     </div>
 
     <div class="modal-section">
@@ -1106,14 +1011,14 @@ input,textarea,select{
         <div class="step-desc">
           1. Go to <a href="https://buffer.com" target="_blank">buffer.com</a> → Sign up free<br>
           2. Connect 3 channels: Facebook Page, Instagram Business, Threads<br>
-          3. Get your Access Token: Buffer → Settings → API → copy the token<br>
-          4. Get your Profile IDs: Buffer → Channels → click each channel → copy the ID shown in the URL<br><br>
+          3. Get your API Key: <a href="https://publish.buffer.com/settings/api" target="_blank">publish.buffer.com/settings/api</a> → Create API Key → copy it<br>
+          4. Get your Channel IDs: go to <a href="https://developers.buffer.com/explorer.html" target="_blank">developers.buffer.com/explorer.html</a> → run the Get Channels query → copy each channel's <code style="font-family:'DM Mono',monospace;font-size:10px;color:var(--blue2)">id</code> value<br><br>
           You'll enter these 4 values in Settings &amp; Keys above. Done once.
         </div>
-        <div class="step-code">BUFFER_ACCESS_TOKEN  = xxxxxxxxxxxx
-BUFFER_FB_ID        = [Facebook profile ID]
-BUFFER_IG_ID        = [Instagram profile ID]  
-BUFFER_TH_ID        = [Threads profile ID]</div>
+        <div class="step-code">BUFFER_API_KEY      = xxxxxxxxxxxx
+BUFFER_FB_ID        = [Facebook channel ID]
+BUFFER_IG_ID        = [Instagram channel ID]  
+BUFFER_TH_ID        = [Threads channel ID]</div>
         <div class="cost-tag cost-free">€0 / month — free plan covers FB + IG + Threads</div>
       </div>
     </div>
@@ -2506,17 +2411,27 @@ async function callGPTImage(system, userText, imageUrl, maxTokens) {
 // ══════════════════════════════════════════════════════
 // BUFFER POSTING
 // ══════════════════════════════════════════════════════
-async function postToBuffer(text, profileId, scheduledAt) {
+async function postToBuffer(text, channelId, scheduledAt) {
   const token = getBufToken();
-  if (!token) throw new Error('Buffer token not set — go to Settings.');
-  if (!profileId) throw new Error('Buffer profile ID not set — go to Settings.');
-  const body = new URLSearchParams({ access_token: token, 'profile_ids[]': profileId, text });
-  if (scheduledAt) body.append('scheduled_at', scheduledAt);
-  const res = await fetch('https://api.bufferapp.com/1/updates/create.json', {
-    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body
+  if (!token) throw new Error('Buffer API key not set — go to Settings.');
+  if (!channelId) throw new Error('Buffer channel ID not set — go to Settings.');
+  // Determine scheduling mode
+  const mode = scheduledAt ? 'customSchedule' : 'queue';
+  const schedulingType = 'automatic';
+  let inputFields = `text: ${JSON.stringify(text)}, channelId: ${JSON.stringify(channelId)}, schedulingType: ${schedulingType}, mode: ${mode}`;
+  if (scheduledAt) inputFields += `, dueAt: ${JSON.stringify(scheduledAt)}`;
+  const query = `mutation CreatePost { createPost(input: { ${inputFields} }) { ... on PostActionSuccess { post { id text } } ... on MutationError { message } } }`;
+  const res = await fetch('https://api.buffer.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ query })
   });
-  if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'Buffer error ' + res.status); }
-  return res.json();
+  if (!res.ok) { const e = await res.json(); throw new Error((e.errors?.[0]?.message) || 'Buffer error ' + res.status); }
+  const data = await res.json();
+  if (data.errors?.length) throw new Error(data.errors[0].message);
+  const result = data.data?.createPost;
+  if (result?.message) throw new Error(result.message); // MutationError
+  return result;
 }
 
 function getScheduledAt(whenId, timeId) {
@@ -2539,7 +2454,7 @@ async function bufferPost(channels, texts, imageUrls, whenId, timeId, statusId, 
     for (const ch of channels) {
       if (!document.getElementById(ch.checkId)?.checked) continue;
       const id = getBufId(ch.channel);
-      if (!id) { results.push(`⚠ ${ch.label}: profile ID not set`); continue; }
+      if (!id) { results.push(`⚠ ${ch.label}: channel ID not set`); continue; }
       const text = texts[ch.channel] || texts.default || '';
       await postToBuffer(text, id, scheduledAt);
       results.push(`✓ ${ch.label}`);
@@ -3169,29 +3084,5 @@ window.addEventListener('load', () => {
 window.addEventListener('resize', () => { if (document.getElementById('screen-strategy')?.classList.contains('active')) fixStrategyIframe(); });
 
 </script>
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const mapping = [
-    "sparkles",
-    "mail",
-    "shopping-bag",
-    "lightbulb",
-    "book-open",
-    "bar-chart-3"
-  ];
-
-  document.querySelectorAll('.tc-icon').forEach((el,i)=>{
-    el.innerHTML = '<i data-lucide="'+mapping[i % mapping.length]+'"></i>';
-  });
-
-  if(window.lucide){
-    lucide.createIcons();
-  }
-});
-</script>
-
 </body>
 </html>
