@@ -2441,27 +2441,35 @@ async function callGPTImage(system, userText, imageUrl, maxTokens) {
 // ══════════════════════════════════════════════════════
 // BUFFER POSTING
 // ══════════════════════════════════════════════════════
-async function postToBuffer(text, channelId, scheduledAt) {
+async function postToBuffer(text, profileId, scheduledAt) {
   const token = getBufToken();
   if (!token) throw new Error('Buffer API key not set — go to Settings.');
-  if (!channelId) throw new Error('Buffer channel ID not set — go to Settings.');
-  // Determine scheduling mode
-  const mode = scheduledAt ? 'customSchedule' : 'queue';
-  const schedulingType = 'automatic';
-  let inputFields = `text: ${JSON.stringify(text)}, channelId: ${JSON.stringify(channelId)}, schedulingType: ${schedulingType}, mode: ${mode}`;
-  if (scheduledAt) inputFields += `, dueAt: ${JSON.stringify(scheduledAt)}`;
-  const query = `mutation CreatePost { createPost(input: { ${inputFields} }) { ... on PostActionSuccess { post { id text } } ... on MutationError { message } } }`;
-  const res = await fetch('https://api.buffer.com', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-    body: JSON.stringify({ query })
+  if (!profileId) throw new Error('Buffer profile ID not set — go to Settings.');
+  
+  // Buffer REST API v1 endpoint
+  const params = new URLSearchParams({
+    access_token: token,
+    profile_ids: profileId,
+    text: text
   });
-  if (!res.ok) { const e = await res.json(); throw new Error((e.errors?.[0]?.message) || 'Buffer error ' + res.status); }
+  
+  if (scheduledAt) {
+    params.append('scheduled_at', Math.floor(new Date(scheduledAt).getTime() / 1000));
+  }
+  
+  const res = await fetch('https://api.bufferapp.com/1/updates/create.json', {
+    method: 'POST',
+    body: params
+  });
+  
+  if (!res.ok) {
+    const e = await res.json();
+    throw new Error(e.error?.message || e.message || 'Buffer error ' + res.status);
+  }
+  
   const data = await res.json();
-  if (data.errors?.length) throw new Error(data.errors[0].message);
-  const result = data.data?.createPost;
-  if (result?.message) throw new Error(result.message); // MutationError
-  return result;
+  if (data.error) throw new Error(data.error.message || 'Buffer error');
+  return data;
 }
 
 function getScheduledAt(whenId, timeId) {
