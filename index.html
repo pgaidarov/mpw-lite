@@ -2607,15 +2607,16 @@ async function npGenerate() {
   const langNote = lang === 'en' ? '\nLanguage: Write ALL posts in English.' : '\nLanguage: Write ALL posts in Bulgarian (except Pinterest description which should be in English).';
   
   // Build dynamic JSON schema based on selection
-  let jsonSchema = '{';
-  if (selFb) jsonSchema += '"facebook_post":"BG, 2-3 sentences, emotional, warm CTA",';
+  let jsonFields = [];
+  if (selFb) jsonFields.push('"facebook_post":"BG, 2-3 sentences, emotional, warm CTA"');
   if (selIg) {
-    jsonSchema += '"instagram_caption":"BG, visual/emotional, hashtag placeholder at end",';
-    jsonSchema += '"threads_post":"BG, short conversational, no hashtags",';
+    jsonFields.push('"instagram_caption":"BG, visual/emotional, hashtag placeholder at end"');
+    jsonFields.push('"threads_post":"BG, short conversational, no hashtags"');
   }
-  if (selPin) jsonSchema += '"pinterest_description":"EN, 2 sentences SEO, what it is + who it\'s for",';
-  if (selWeb) jsonSchema += '"website_description":"BG product listing copy for merrypiper.com — tone by category (Collectible Art: gallery-register 4-5 sentences no price; Скулптури: warm tactile 4-5 sentences; Книгоразделители: light reader-focused 3-4 sentences, connect the object to the act of reading and the feeling it brings; Персонализирано: intimate centres recipient 3-4 sentences ends with Разкажи ми за твоето; Надписи: architectural 3-4 sentences). Never summarise — paint a scene.",';
-  jsonSchema += '"hashtags":["10 tags mix niche+community"]}';
+  if (selPin) jsonFields.push('"pinterest_description":"EN, 2 sentences SEO, what it is and who it is for"');
+  if (selWeb) jsonFields.push('"website_description":"BG product listing copy for merrypiper.com - tone by category (Collectible Art: gallery-register 4-5 sentences no price; Sculptures: warm tactile 4-5 sentences; Bookmarks: light reader-focused 3-4 sentences, connect the object to the act of reading and the feeling it brings; Personalized: intimate centres recipient 3-4 sentences ends with Tell me about yours; Signs: architectural 3-4 sentences). Never summarise - paint a scene."');
+  jsonFields.push('"hashtags":["10 tags mix niche+community"]');
+  const jsonSchema = '{' + jsonFields.join(',') + '}';
 
   setLoading('np-genBtn', true);
   try {
