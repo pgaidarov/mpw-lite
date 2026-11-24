@@ -376,6 +376,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
 .np-link{margin-top:8px;}
 .np-link summary{font-size:15px;color:var(--muted2);cursor:pointer;}
 .np-link input{margin-top:8px;}
+.np-tone-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-top:10px;}
+.np-tone-grid label{display:flex;flex-direction:column;gap:6px;font-size:16px;font-weight:600;color:var(--text);}
 .np-grid2{display:grid;grid-template-columns:1fr 150px;gap:14px;}
 .chips{display:flex;flex-wrap:wrap;gap:9px;}
 .chips label{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:999px;border:1px solid var(--border2);background:var(--s1);font-size:17px;color:var(--muted2);font-weight:500;cursor:pointer;}
@@ -399,7 +401,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
 <nav class="side" aria-label="Меню">
   <div class="side-logo">
     <svg width="40" height="40" viewBox="0 0 38 38" aria-hidden="true"><rect x=".5" y=".5" width="37" height="37" rx="10" fill="#fff" stroke="#c9b2e2"/><path d="M6 27 C10 27 11 12 16 12 C21 12 18 26 23 26 C28 26 26 10 32 11" fill="none" stroke="#c7356e" stroke-width="2" stroke-linecap="round"/></svg>
-    <div><b>Merry Piper's<br>Workshop</b><small>Инструменти · v5.1</small></div>
+    <div><b>Merry Piper's<br>Workshop</b><small>Инструменти · v5.2</small></div>
   </div>
   <button class="nav" data-nav="home" onclick="navGo('home')"><i>☀</i>Днес</button>
   <div class="side-grp">Създай</div>
@@ -542,6 +544,12 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
         <div style="display:none"><input type="url" id="np-img-fb"><input type="file" id="np-img-fb-file" accept="image/*" onchange="imgFileSelect('np-img-fb')"><span id="np-img-fb-fname"></span><img id="np-prev-fb" alt=""><input type="url" id="np-img-ig"><input type="file" id="np-img-ig-file" accept="image/*" onchange="imgFileSelect('np-img-ig')"><span id="np-img-ig-fname"></span><img id="np-prev-ig" alt=""><input type="url" id="np-img-pin"><input type="file" id="np-img-pin-file" accept="image/*" onchange="imgFileSelect('np-img-pin')"><span id="np-img-pin-fname"></span><img id="np-prev-pin" alt=""></div>
       </div>
 
+      <div class="field">
+        <div class="label">Какво е предметът <span style="color:var(--muted);font-weight:400;margin-left:6px">по желание</span></div>
+        <input type="text" id="np-what" placeholder="напр. книгоразделител роза с име по стъблото">
+        <div class="hint">Ще го пише ясно във всеки текст. От снимката не винаги личи.</div>
+      </div>
+
       <div class="np-grid2">
         <div class="field"><div class="label">За какво е <span style="color:var(--muted);font-weight:400;margin-left:6px">по желание</span></div>
           <input type="text" id="np-angle" placeholder="подарък за любител на книги, Свети Валентин…"></div>
@@ -558,6 +566,30 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
           <option>Надписи</option>
         </select>
         <div class="hint">Колекционерско изкуство и персонализирани поръчки се пишат без цена.</div>
+      </div>
+
+      <div class="field">
+        <div class="label">Факти <span style="color:var(--muted);font-weight:400;margin-left:6px">по желание, по един на ред</span></div>
+        <textarea id="np-facts" rows="3" placeholder="всяко име се изписва по поръчка&#10;основа от дърво"></textarea>
+        <div class="hint">Ако има нещо тук, текстовете твърдят само тези факти и това, което се вижда. Размер се споменава, само ако е написан тук.</div>
+      </div>
+
+      <div class="field">
+        <div class="label">Тон</div>
+        <div class="chips">
+          <label><input type="radio" name="np-tone" value="mood" checked>Настроение</label>
+          <label><input type="radio" name="np-tone" value="balance">Баланс</label>
+          <label><input type="radio" name="np-tone" value="clear">Ясно</label>
+        </div>
+        <div class="hint">Настроение е досегашният стил. Баланс: първо какво е и за кого, после образът. Ясно: какво е, за кого и защо, най-много един образ.</div>
+        <details class="np-link np-tone-more"><summary>различен тон за отделен канал</summary>
+          <div class="np-tone-grid">
+            <label>Facebook<select id="np-tone-fb"></select></label>
+            <label>Instagram / Threads<select id="np-tone-ig"></select></label>
+            <label>Pinterest<select id="np-tone-pin"></select></label>
+            <label>Сайт<select id="np-tone-web"></select></label>
+          </div>
+        </details>
       </div>
 
       <div class="field">
@@ -2646,6 +2678,40 @@ function npTab(id, btn) {
   document.getElementById('np-' + id + '-pane').style.display = 'block';
 }
 
+// ── ЯСНОТА: какво е, факти, тон ──
+// Влизат само в съобщението за конкретния продукт. Системният промпт (VOICE и др.) не се променя.
+const NP_TONES = {
+  mood: { bg: 'Настроение', rule: '' },
+  balance: { bg: 'Баланс', rule: 'Open with one plain sentence that says what the product is and who it is for, then the image and the mood.' },
+  clear: { bg: 'Ясно', rule: 'Plain and clear: what the product is, who it is for and why it is a good choice. At most one image or metaphor in the whole text.' },
+};
+const NP_TONE_CH = [
+  { id: 'fb', keys: 'facebook_post' },
+  { id: 'ig', keys: 'instagram_caption, threads_post' },
+  { id: 'pin', keys: 'pinterest_description' },
+  { id: 'web', keys: 'website_description' },
+];
+function npToneInit() {
+  NP_TONE_CH.forEach(c => {
+    const el = document.getElementById('np-tone-' + c.id); if (!el) return;
+    el.innerHTML = '<option value="">Като общия</option>' + Object.keys(NP_TONES).map(k => '<option value="' + k + '">' + NP_TONES[k].bg + '</option>').join('');
+  });
+}
+function npClarityNote(sel) {
+  const what = document.getElementById('np-what').value.trim();
+  const facts = document.getElementById('np-facts').value.split('\n').map(x => x.trim().replace(/^[-•*]\s*/, '')).filter(Boolean);
+  const base = (document.querySelector('input[name="np-tone"]:checked') || {}).value || 'mood';
+  let out = '';
+  if (what) out += '\nWhat the product is (stated by the seller, this is a fact): ' + what + '. Every text must make clear what the product is.';
+  if (facts.length) out += '\nFacts stated by the seller:\n' + facts.map(f => '- ' + f).join('\n') + '\nUse these facts where they fit. Do not state any other factual claim (size, quantity, use, material details, who it suits) beyond these facts, the brand description and what is plainly visible in the photo.';
+  const rules = NP_TONE_CH.filter(c => sel[c.id]).map(c => {
+    const t = document.getElementById('np-tone-' + c.id).value || base;
+    return NP_TONES[t].rule ? '- ' + c.keys + ': ' + NP_TONES[t].rule : '';
+  }).filter(Boolean);
+  if (rules.length) out += '\nTONE FOR THIS PRODUCT (overrides style guidance where they differ; all other rules still apply):\n' + rules.join('\n');
+  return out;
+}
+
 async function npGenerate() {
   hideErr('np-err');
   const name = document.getElementById('np-name').value.trim();
@@ -2674,6 +2740,7 @@ async function npGenerate() {
   const cat   = document.getElementById('np-cat').value;
   const angle = document.getElementById('np-angle').value.trim();
   const lang  = document.getElementById('np-lang')?.value || 'bg';
+  const clarity = npClarityNote({ fb: selFb, ig: selIg, pin: selPin, web: selWeb });
   const langNote = lang === 'en' ? '\nLanguage: Write ALL posts in English.' : '\nLanguage: Write ALL posts in Bulgarian (except Pinterest description which should be in English).';
   
   // Build dynamic JSON schema based on selection
@@ -2692,7 +2759,7 @@ async function npGenerate() {
   setLoading('np-genBtn', true);
   try {
     const r = await callGPTImage(SYS_SOCIAL,
-      `Product: ${name}\nCategory: ${cat}\nPrice: ${price} EUR${angle ? "\nAngle / direction: " + angle : ""}${langNote}\n\nGenerate platform posts based on the product image.${seasonNote()}\n\nReturn ONLY valid JSON: ${jsonSchema}`,
+      `Product: ${name}\nCategory: ${cat}\nPrice: ${price} EUR${angle ? "\nAngle / direction: " + angle : ""}${clarity}${langNote}\n\nGenerate platform posts based on the product image.${seasonNote()}\n\nReturn ONLY valid JSON: ${jsonSchema}`,
       imageUrl, 1400);
     
     // Populate outputs based on selection
@@ -3315,7 +3382,7 @@ function stTab(id, btn) {
 // Продуктът се записва сам след успешно генериране и после се избира от менюто във всеки генератор.
 // Снимките не се пазят: са твърде големи за localStorage.
 const PROD_FORMS = {
-  np:   { name: 'np-name', price: 'np-price', cat: 'np-cat' },
+  np:   { name: 'np-name', price: 'np-price', cat: 'np-cat', what: 'np-what', facts: 'np-facts' },
   vb:   { name: 'vb-name', price: 'vb-price', cat: 'vb-cat', slug: 'vb-slug', desc: 'vb-desc' },
   pg:   { name: 'pg-s-name', price: 'pg-s-price', cat: 'pg-s-cat' },
   etsy: { name: 'etsy-name', price: 'etsy-price', type: 'etsy-type', materials: 'etsy-materials', audience: 'etsy-audience', occasions: 'etsy-occasions', details: 'etsy-details' },
@@ -3347,7 +3414,9 @@ function prodFill(sel) {
   const map = PROD_FORMS[sel.dataset.form]; if (!map || !sel.value) return;
   const p = prodLoad().find(x => x.name === sel.value); if (!p) return;
   Object.keys(map).forEach(k => {
-    const el = document.getElementById(map[k]); if (!el || p[k] === undefined) return;
+    const el = document.getElementById(map[k]); if (!el) return;
+    // Фактите и „Какво е“ не бива да остават от предишния продукт.
+    if (p[k] === undefined) { if (k === 'what' || k === 'facts') el.value = ''; return; }
     if (el.tagName === 'SELECT') { if ([...el.options].some(o => (o.value || o.textContent) === p[k])) el.value = p[k]; }
     else el.value = p[k];
   });
@@ -3505,6 +3574,8 @@ function npHandoff(target) {
   } else {
     document.getElementById('etsy-name').value = v('np-name');
     document.getElementById('etsy-price').value = v('np-price');
+    if (v('np-what').trim()) document.getElementById('etsy-type').value = v('np-what').trim();
+    if (v('np-facts').trim()) document.getElementById('etsy-details').value = v('np-facts').split('\n').map(x => x.trim()).filter(Boolean).join('; ');
   }
   navGo(target);
 }
@@ -3513,6 +3584,7 @@ function npHandoff(target) {
 window.addEventListener('load', () => {
   loadCreds();
   prodRenderPickers();
+  npToneInit();
   applyLang();
   renderToday();
   navMark('home');
